@@ -53,9 +53,11 @@ namespace PhonebookBM
             }
         }
 
-        private bool isEnabled;
-        public bool MyIsEnabled { get => isEnabled; set => Set(ref isEnabled, value); }
+        private bool myIsEnabled = false;
+        public bool MyIsEnabled { get => myIsEnabled; set => Set(ref myIsEnabled, value); }
 
+        private bool adminKeyPress;
+        public bool AdminKeyPress { get => adminKeyPress; set => Set(ref adminKeyPress, value); }
 
         public MainWindow()
         {
@@ -111,7 +113,11 @@ namespace PhonebookBM
 
         private void AdminKey(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.F5)
+            if (e.Key == Key.R & Keyboard.Modifiers == ModifierKeys.Control)
+            { 
+                AdminKeyPress = true;
+            }
+            else if ((e.Key == Key.Z & Keyboard.Modifiers == ModifierKeys.Control) && AdminKeyPress)
             {
                 if (this.UserStatus == 0)
                 {
@@ -123,8 +129,9 @@ namespace PhonebookBM
                     this.UserStatus = 0;
                     MyIsEnabled = false;
                 }
+                AdminKeyPress = false;
             }
-
+            else AdminKeyPress = false;
         }
     }
 }
