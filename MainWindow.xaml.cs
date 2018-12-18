@@ -1,27 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
+using System.Runtime;
+using Microsoft.Win32;
+using System.Reflection;
 using System.Windows.Data;
-using System.Windows.Documents;
+using System.Globalization;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
+using System.ComponentModel;
 using System.Windows.Shapes;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Xml.Serialization;
+using System.Windows.Navigation;
+using System.Collections.Generic;
+using System.Windows.Media.Imaging;
+using System.Runtime.Serialization;
+using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using Word = Microsoft.Office.Interop.Word;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace PhonebookBM
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    /// 
-
-
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private ObservableCollection<MyContact> ocMyContacts;
@@ -59,11 +65,14 @@ namespace PhonebookBM
         private bool adminKeyPress;
         public bool AdminKeyPress { get => adminKeyPress; set => Set(ref adminKeyPress, value); }
 
+        private string excelFilePath;
+        public string ExcelFilePath { get => excelFilePath; set => Set(ref excelFilePath, value); }
+
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
-            OCMyContactsNotСonfirmed = MyExcel.ReadExcel();
+            
             OCMyContacts = OCMyContactsNotСonfirmed;
         }
 
@@ -79,7 +88,9 @@ namespace PhonebookBM
             var linqResults1 = from user in OCMyContactsNotСonfirmed
                                    //from lang in user.Languages
                                where user.ContactName.Contains(value) ||
-                               user.ContactSurname.Contains(value)
+                               user.ContactSurname.Contains(value) ||
+                               user.Department.Contains(value) ||
+                               user.UnderDepartment.Contains(value)
                                //where user.ContactSurname == "%" + value + "%"
                                select user;
 
@@ -132,6 +143,29 @@ namespace PhonebookBM
                 AdminKeyPress = false;
             }
             else AdminKeyPress = false;
+        }
+
+        private string OpenFileDialogAndReturnExcelFilePath()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd = new OpenFileDialog();
+            ofd.InitialDirectory = @"C:\";
+            ofd.RestoreDirectory = true;
+            ofd.Title = "Browse Excel Files";
+            ofd.DefaultExt = "xls";
+            ofd.Filter = "Excel files (*.xls)|*.xls|Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            ofd.FilterIndex = 2;
+            ofd.CheckFileExists = true;
+            ofd.CheckPathExists = true;
+            ofd.ShowDialog();
+            return ofd.FileName;
+        }
+
+        private void LoadFromExcel(object sender, RoutedEventArgs e)
+        {
+            ExcelFilePath = OpenFileDialogAndReturnExcelFilePath();
+            MyExcel myExcel = new MyExcel(ExcelFilePath);
+            OCMyContactsNotСonfirmed = myExcel.ReadExcel();
         }
     }
 }
