@@ -88,13 +88,13 @@
         <DockPanel Grid.Row="1" HorizontalAlignment="Stretch">
             <ListBox HorizontalContentAlignment="Left" 
                      ItemTemplate="{StaticResource contactItem}"
-                     ItemsSource="{Binding OCMyContacts}">
+                     ItemsSource="{Binding OCMyContactsFiltered}">
             </ListBox>
         </DockPanel>
         <DockPanel Grid.Row="2" HorizontalAlignment="Stretch">
             <Label DockPanel.Dock="Right" Name="lbluser" Content="İstifadəçi"/>
             <Label Content="Sayı:"/>
-            <Label Content="{Binding OCMyContacts.Count}"/>
+            <Label Content="{Binding OCMyContactsFiltered.Count}"/>
         </DockPanel>
     </Grid>
 </Window>

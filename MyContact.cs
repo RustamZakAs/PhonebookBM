@@ -63,5 +63,8 @@ namespace PhonebookBM
 
         private int contactState = 0; //0-User add row //1-Admin add row
         public int ContactState { get => contactState; set => Set(ref contactState, value); }
+
+        private bool confirmed = false; //подтверждено
+        public bool Сonfirmed { get => confirmed; set => Set(ref confirmed, value); }
     }
 }

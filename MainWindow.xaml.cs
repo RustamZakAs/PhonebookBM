@@ -30,11 +30,11 @@ namespace PhonebookBM
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private ObservableCollection<MyContact> ocMyContacts;
-        public ObservableCollection<MyContact> OCMyContacts { get => ocMyContacts; set => Set(ref ocMyContacts, value); }
+        private ObservableCollection<MyContact> ocMyContactsAll;
+        public ObservableCollection<MyContact> OCMyContactsAll { get => ocMyContactsAll; set => Set(ref ocMyContactsAll, value); }
 
-        private ObservableCollection<MyContact> ocCMyContactsNotСonfirmed;
-        public ObservableCollection<MyContact> OCMyContactsNotСonfirmed { get => ocCMyContactsNotСonfirmed; set => Set(ref ocCMyContactsNotСonfirmed, value); }
+        private ObservableCollection<MyContact> ocMyContactsFiltered;
+        public ObservableCollection<MyContact> OCMyContactsFiltered { get => ocMyContactsFiltered; set => Set(ref ocMyContactsFiltered, value); }
 
         private string searchText;
         public string SearchText
@@ -43,7 +43,7 @@ namespace PhonebookBM
             set
             {
                 Set(ref searchText, value);
-                MySearch(value);
+                OCMyContactsFiltered = MySearch(OCMyContactsAll, value);
             }
         }
 
@@ -72,8 +72,6 @@ namespace PhonebookBM
         {
             InitializeComponent();
             DataContext = this;
-            
-            OCMyContacts = OCMyContactsNotСonfirmed;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -83,18 +81,21 @@ namespace PhonebookBM
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
-        private void MySearch(string value)
+        private ObservableCollection<MyContact> MySearch(ObservableCollection<MyContact> contacts, string value)
         {
-            var linqResults1 = from user in OCMyContactsNotСonfirmed
+            if (contacts != null && contacts.Count > 0)
+            { 
+                var linqResults1 = from user in contacts
                                    //from lang in user.Languages
-                               where user.ContactName.Contains(value) ||
-                               user.ContactSurname.Contains(value) ||
-                               user.Department.Contains(value) ||
-                               user.UnderDepartment.Contains(value)
-                               //where user.ContactSurname == "%" + value + "%"
-                               select user;
-
-            OCMyContacts = new ObservableCollection<MyContact>(linqResults1);
+                                   where user.ContactName.Contains(value) ||
+                                   user.ContactSurname.Contains(value) ||
+                                   user.Department.Contains(value) ||
+                                   user.UnderDepartment.Contains(value)
+                                   //where user.ContactSurname == "%" + value + "%"
+                                   select user;
+                return new ObservableCollection<MyContact>(linqResults1);
+            }
+            return new ObservableCollection<MyContact>();
         }
 
         private void NumberInsert(object sender, TextCompositionEventArgs e)
@@ -165,7 +166,9 @@ namespace PhonebookBM
         {
             ExcelFilePath = OpenFileDialogAndReturnExcelFilePath();
             MyExcel myExcel = new MyExcel(ExcelFilePath);
-            OCMyContactsNotСonfirmed = myExcel.ReadExcel();
+            if (ExcelFilePath != null && ExcelFilePath.Length > 0)
+                OCMyContactsAll = myExcel.ReadExcel();
+            OCMyContactsFiltered = OCMyContactsAll;
         }
     }
 }
