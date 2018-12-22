@@ -86,12 +86,10 @@ namespace PhonebookBM
             if (contacts != null && contacts.Count > 0)
             { 
                 var linqResults1 = from user in contacts
-                                   //from lang in user.Languages
                                    where user.ContactName.Contains(value) ||
                                    user.ContactSurname.Contains(value) ||
                                    user.Department.Contains(value) ||
                                    user.UnderDepartment.Contains(value)
-                                   //where user.ContactSurname == "%" + value + "%"
                                    select user;
                 return new ObservableCollection<MyContact>(linqResults1);
             }
