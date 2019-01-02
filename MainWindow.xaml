@@ -9,7 +9,8 @@
         Height="450"
         Width="770"
         PreviewKeyDown="AdminKey"
-        Name="mainWindow">
+        Name="mainWindow"
+        >
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center" />
