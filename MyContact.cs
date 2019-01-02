@@ -1,33 +1,37 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Runtime;
-using Microsoft.Win32;
-using System.Reflection;
-using System.Windows.Data;
-using System.Globalization;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.ComponentModel;
-using System.Windows.Shapes;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Xml.Serialization;
-using System.Windows.Navigation;
-using System.Collections.Generic;
-using System.Windows.Media.Imaging;
-using System.Runtime.Serialization;
-using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Word = Microsoft.Office.Interop.Word;
+﻿using System.Runtime.Serialization.Formatters.Binary;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.Runtime.Serialization.Formatters.Binary;
+using Word = Microsoft.Office.Interop.Word;
+using System.Runtime.Serialization.Json;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.Windows.Media.Imaging;
+using System.Collections.Generic;
+using System.Windows.Navigation;
+using System.Xml.Serialization;
+using System.Windows.Documents;
+using System.Windows.Controls;
+using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Windows.Media;
+using System.Windows.Input;
+using System.Globalization;
+using System.Windows.Data;
+using System.Reflection;
+using Microsoft.Win32;
+using System.Runtime;
+using System.Windows;
+using System.Text;
+using System.Linq;
+using System.IO;
+using System;
 
 namespace PhonebookBM
 {
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public class MyContact : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -37,33 +41,43 @@ namespace PhonebookBM
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
-        private int id = 0;
+        [DataMember] //1
+        private int id = 0; 
         public int Id { get => id; set => Set(ref id, value); }
 
+        [DataMember] //2
         private string departmentIcon = "";
         public string DepartmentIcon { get => departmentIcon; set => Set(ref departmentIcon, value); }
 
+        [DataMember] //3
         private string department = "";
         public string Department { get => department; set => Set(ref department, value); }
 
+        [DataMember] //4
         private string underDepartment = "";
         public string UnderDepartment { get => underDepartment; set => Set(ref underDepartment, value); }
 
+        [DataMember] //5
         private string contactName = "";
         public string ContactName { get => contactName; set => Set(ref contactName, value); }
 
+        [DataMember] //6
         private string contactSurname = "";
         public string ContactSurname { get => contactSurname; set => Set(ref contactSurname, value); }
 
+        [DataMember] //7
         private string profession = "";
         public string Profession { get => profession; set => Set(ref profession, value); }
 
+        [DataMember] //8
         private string telNumber = "";
         public string TelNumber { get => telNumber; set => Set(ref telNumber, value); }
 
+        [DataMember] //9
         private int contactState = 0; //0-User add row //1-Admin add row
         public int ContactState { get => contactState; set => Set(ref contactState, value); }
 
+        [DataMember] //10
         private bool confirmed = false; //подтверждено
         public bool Сonfirmed { get => confirmed; set => Set(ref confirmed, value); }
     }

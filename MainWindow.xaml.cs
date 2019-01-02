@@ -25,6 +25,7 @@ using System.Runtime.CompilerServices;
 using Word = Microsoft.Office.Interop.Word;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
 
 namespace PhonebookBM
 {
@@ -72,6 +73,17 @@ namespace PhonebookBM
         {
             InitializeComponent();
             DataContext = this;
+
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(ObservableCollection<MyContact>));
+            using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
+            {
+                ObservableCollection<MyContact> newpeople = (ObservableCollection<MyContact>)jsonFormatter.ReadObject(fs);
+                //foreach (MyContact p in newpeople)
+                //{
+                //    MessageBox.Show(String.Format("Имя: {0} --- Возраст: {1}", p.ContactName, p.ContactSurname));
+                //}
+                OCMyContactsFiltered = OCMyContactsAll = newpeople;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -169,6 +181,15 @@ namespace PhonebookBM
             if (ExcelFilePath != null && ExcelFilePath.Length > 0)
                 OCMyContactsAll = myExcel.ReadExcel();
             OCMyContactsFiltered = OCMyContactsAll;
+
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(ObservableCollection<MyContact>));
+
+            using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
+            {
+                jsonFormatter.WriteObject(fs, OCMyContactsAll);
+            }
+
+            
         }
     }
 }
