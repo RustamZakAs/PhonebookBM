@@ -136,7 +136,7 @@ namespace PhonebookBM
                 row.Profession = "Proqram təmitatı üzrə mütəxəssis";
                 row.UnderDepartment = "Proqramlaşdırma";
                 row.TelNumber = "+994772709923";
-                row.DepartmentIcon = @"C:\Users\User\source\repos\PhonebookBM\logo.png";
+                row.DepartmentIcon = @".\logo.png";
                 row.ContactState = 0;
                 this.OCMyContacts.Add(row);
 
@@ -148,7 +148,7 @@ namespace PhonebookBM
                 row.Profession = "İnformasiya Texnologiyaları üzrə Departament müdiri";
                 row.UnderDepartment = "";
                 row.TelNumber = "+994772709940";
-                row.DepartmentIcon = @"C:\Users\User\source\repos\PhonebookBM\logo.png";
+                row.DepartmentIcon = @".\logo.png";
                 row.ContactState = 1;
                 this.OCMyContacts.Add(row);
             }

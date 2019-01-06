@@ -7,25 +7,24 @@
         mc:Ignorable="d"
         Title="PhonebookBM" 
         Height="450"
-        Width="770"
+        Width="777"
         PreviewKeyDown="AdminKey"
-        Name="mainWindow"
-        >
+        Name="mainWindow">
     <Window.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
         <DataTemplate x:Key="contactItem">
             <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" LastChildFill="True">
                 <DockPanel DockPanel.Dock="Right" Background="GreenYellow">
-                    <TextBox DockPanel.Dock="Left" 
-                             Text="{Binding TelNumber}" 
-                             PreviewTextInput="NumberInsert"
-                             Background="Red" 
-                             FontSize="16"></TextBox>
-                    <Button Content="X" x:Name="btnDel" DockPanel.Dock="Right" FontWeight="Bold">
+                    <TextBlock Width="121" DockPanel.Dock="Left" 
+                             Text="{Binding TelNumber}"
+                             PreviewTextInput="NumberInsert" 
+                             Background="Red"
+                             FontSize="16"/>
+                    <Button DockPanel.Dock="Right" x:Name="btnDel" FontWeight="Bold" Content="X">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Visibility" Value="Visible"/>
@@ -43,9 +42,9 @@
                         <ImageBrush ImageSource="{Binding DepartmentIcon}"/>
                     </Ellipse.Fill>
                 </Ellipse>
-                <DockPanel>
-                    <Label DockPanel.Dock="Top" Content="{Binding Department}"></Label>
-                    <Label Content="{Binding UnderDepartment}"></Label>
+                <DockPanel Width="150">
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Department}" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding UnderDepartment}" TextWrapping="Wrap"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Bottom" 
@@ -54,7 +53,7 @@
                                Width="200"
                                />
                 </DockPanel>
-                <DockPanel DockPanel.Dock="Right" Width="200" Background="Green">
+                <DockPanel DockPanel.Dock="Right" Width="190" Background="Green">
                     <Label DockPanel.Dock="Top" Content="{Binding ContactName}" Background="Red"/>
                     <Label Content="{Binding ContactSurname}"></Label>
                 </DockPanel>
@@ -63,7 +62,7 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
             <RowDefinition/>
             <RowDefinition Height="25"></RowDefinition>
         </Grid.RowDefinitions>
@@ -80,14 +79,14 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                     Background="Yellow" 
-                     FontSize="20" 
-                     FontWeight="Bold" 
+            <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Background="Yellow"
+                     FontSize="20"
+                     FontWeight="Bold"
                      FontFamily="Tahoma"/>
         </DockPanel>
         <DockPanel Grid.Row="1" HorizontalAlignment="Stretch">
-            <ListBox HorizontalContentAlignment="Left" 
+            <ListBox x:Name="lbItems" HorizontalContentAlignment="Left" 
                      ItemTemplate="{StaticResource contactItem}"
                      ItemsSource="{Binding OCMyContactsFiltered}">
             </ListBox>
@@ -95,6 +94,7 @@
         <DockPanel Grid.Row="2" HorizontalAlignment="Stretch">
             <Label DockPanel.Dock="Right" Name="lbluser" Content="İstifadəçi"/>
             <Label Content="Sayı:"/>
+            <Image DockPanel.Dock="Right" Source=".\info.png"/>
             <Label Content="{Binding OCMyContactsFiltered.Count}"/>
         </DockPanel>
     </Grid>

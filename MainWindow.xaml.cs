@@ -22,10 +22,11 @@ using System.Runtime.Serialization;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Json;
 using Word = Microsoft.Office.Interop.Word;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization.Json;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace PhonebookBM
 {
@@ -75,14 +76,14 @@ namespace PhonebookBM
             DataContext = this;
 
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(ObservableCollection<MyContact>));
-            using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream("Contacts.json", FileMode.OpenOrCreate))
             {
-                ObservableCollection<MyContact> newpeople = (ObservableCollection<MyContact>)jsonFormatter.ReadObject(fs);
+                ObservableCollection<MyContact> myContacts = (ObservableCollection<MyContact>)jsonFormatter.ReadObject(fs);
                 //foreach (MyContact p in newpeople)
                 //{
                 //    MessageBox.Show(String.Format("Имя: {0} --- Возраст: {1}", p.ContactName, p.ContactSurname));
                 //}
-                OCMyContactsFiltered = OCMyContactsAll = newpeople;
+                OCMyContactsFiltered = OCMyContactsAll = myContacts;
             }
         }
 
@@ -125,6 +126,22 @@ namespace PhonebookBM
                 if (((TextBox)sender).Text.StartsWith(e.Text) == true)
                     e.Handled = true;
             }
+        }
+
+        private RelayCommand itemDeleteCommand;
+        public RelayCommand ItemDeleteCommand
+        {
+            get => itemDeleteCommand ?? (itemDeleteCommand = new RelayCommand(
+                 () =>
+                 {
+                     int x = lbItems.SelectedIndex;
+                     if (lbItems.SelectedItem != null)
+                     {
+                         OCMyContactsFiltered.RemoveAt(x);
+                     }
+                     OCMyContactsAll = ocMyContactsFiltered;
+                 }
+                 ));
         }
 
         private bool IsNumber(string text)
@@ -182,12 +199,10 @@ namespace PhonebookBM
 
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(ObservableCollection<MyContact>));
 
-            using (FileStream fs = new FileStream("people.json", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream("Contacts.json", FileMode.OpenOrCreate))
             {
                 jsonFormatter.WriteObject(fs, OCMyContactsAll);
             }
-
-            
         }
     }
 }
