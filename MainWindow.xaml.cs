@@ -78,12 +78,18 @@ namespace PhonebookBM
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(ObservableCollection<MyContact>));
             using (FileStream fs = new FileStream("Contacts.json", FileMode.OpenOrCreate))
             {
-                ObservableCollection<MyContact> myContacts = (ObservableCollection<MyContact>)jsonFormatter.ReadObject(fs);
-                //foreach (MyContact p in newpeople)
-                //{
-                //    MessageBox.Show(String.Format("Имя: {0} --- Возраст: {1}", p.ContactName, p.ContactSurname));
-                //}
-                OCMyContactsFiltered = OCMyContactsAll = myContacts;
+                try
+                {
+                    ObservableCollection<MyContact> myContacts = (ObservableCollection<MyContact>)jsonFormatter.ReadObject(fs);
+                    //foreach (MyContact p in newpeople)
+                    //{
+                    //    MessageBox.Show(String.Format("Имя: {0} --- Возраст: {1}", p.ContactName, p.ContactSurname));
+                    //}
+                    OCMyContactsFiltered = OCMyContactsAll = myContacts;
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 
