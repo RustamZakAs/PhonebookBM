@@ -62,16 +62,19 @@
         </DataTemplate>
     </Window.Resources>
     <DockPanel>
-        <StatusBar DockPanel.Dock="Bottom" Height="30">
-            <DockPanel LastChildFill="False">
+        <StatusBar DockPanel.Dock="Bottom" Height="30" HorizontalAlignment="Stretch">
+            <DockPanel LastChildFill="True">
+                <StatusBarItem DockPanel.Dock="Right" HorizontalAlignment="Right">
+                    <ResizeGrip Opacity="0.75"/>
+                </StatusBarItem>
+                <DockPanel LastChildFill="False" DockPanel.Dock="Left">
+                    <TextBlock DockPanel.Dock="Right" Text="{Binding OCMyContactsFiltered.Count}"/>
+                    <TextBlock Margin="3,0,0,0" Text="Sayı:"/>
+                </DockPanel>
                 <Image DockPanel.Dock="Right" Source=".\info.png"/>
-                <TextBlock DockPanel.Dock="Right" Text="{Binding OCMyContactsFiltered.Count}"/>
-                <TextBlock Margin="3,0,0,0" Text="Sayı:"/>
+                <TextBlock DockPanel.Dock="Right" x:Name="lbluser" Text="İstifadəçi"/>
+                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Aqua" Text="------------------"/>
             </DockPanel>
-            <StatusBarItem HorizontalAlignment="Right">
-                <ResizeGrip Opacity="0.75"/>
-            </StatusBarItem>
-            <TextBlock Text="İstifadəçi"/>
         </StatusBar>
         <DockPanel Margin="0,7,0,0"
                    Background="Transparent"

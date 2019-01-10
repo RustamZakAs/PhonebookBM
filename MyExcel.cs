@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Json;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Collections.ObjectModel;
+using GalaSoft.MvvmLight.CommandWpf;
 using System.Runtime.Serialization;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;

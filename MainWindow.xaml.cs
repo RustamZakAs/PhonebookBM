@@ -1,32 +1,32 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Runtime;
-using Microsoft.Win32;
-using System.Reflection;
-using System.Windows.Data;
-using System.Globalization;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.ComponentModel;
-using System.Windows.Shapes;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Xml.Serialization;
-using System.Windows.Navigation;
-using System.Collections.Generic;
-using System.Windows.Media.Imaging;
-using System.Runtime.Serialization;
-using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization.Json;
-using Word = Microsoft.Office.Interop.Word;
+﻿using System.Runtime.Serialization.Formatters.Binary;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.Runtime.Serialization.Formatters.Binary;
+using Word = Microsoft.Office.Interop.Word;
+using System.Runtime.Serialization.Json;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.CommandWpf;
+using System.Runtime.Serialization;
+using System.Windows.Media.Imaging;
+using System.Collections.Generic;
+using System.Windows.Navigation;
+using System.Xml.Serialization;
+using System.Windows.Documents;
+using System.Windows.Controls;
+using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Windows.Media;
+using System.Windows.Input;
+using System.Globalization;
+using System.Windows.Data;
+using System.Reflection;
+using Microsoft.Win32;
+using System.Runtime;
+using System.Windows;
+using System.Text;
+using System.Linq;
+using System.IO;
+using System;
 
 namespace PhonebookBM
 {
@@ -56,8 +56,8 @@ namespace PhonebookBM
             set
             {
                 Set(ref userStatus, value);
-                if (value == 0) lbluser.Content = "İstifadəçi";
-                else lbluser.Content = "Administrator";
+                if (value == 0) lbluser.Text = "İstifadəçi";
+                else lbluser.Text = "Administrator";
             }
         }
 
