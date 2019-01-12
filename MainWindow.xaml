@@ -60,6 +60,60 @@
                 </DockPanel>
             </DockPanel>
         </DataTemplate>
+        <DataTemplate x:Key="contactItemChange">
+            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" LastChildFill="True">
+                <DockPanel DockPanel.Dock="Right" Background="GreenYellow">
+                    <TextBox Width="121" DockPanel.Dock="Left" 
+                             Text="{Binding TelNumber}"
+                             PreviewTextInput="NumberInsert" 
+                             Background="Red"
+                             FontSize="16"/>
+                    <Button DockPanel.Dock="Right" x:Name="btnDel" FontWeight="Bold" Content="X">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=mainWindow, Path=MyIsEnabled}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </DockPanel>
+                <Ellipse Height="50" Width="50" DockPanel.Dock="Left">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding DepartmentIcon}"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <DockPanel Width="150">
+                    <TextBox DockPanel.Dock="Top" Text="{Binding Department}" TextWrapping="Wrap"/>
+                    <TextBox Text="{Binding UnderDepartment}" TextWrapping="Wrap"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBox DockPanel.Dock="Bottom" 
+                               Text="{Binding Profession}"
+                               TextWrapping="Wrap"
+                               Width="200"
+                               />
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Right" Width="190" Background="Green">
+                    <TextBox DockPanel.Dock="Top" Text="{Binding ContactName}" Background="Red"/>
+                    <TextBox Text="{Binding ContactSurname}"></TextBox>
+                </DockPanel>
+            </DockPanel>
+        </DataTemplate>
+        <Style TargetType="{x:Type ListBoxItem}" x:Key="ContainerStyle">
+            <Setter Property="ContentTemplate" Value="{StaticResource contactItem}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=mainWindow, Path=UserStatus}" Value="0">
+                    <Setter Property="ContentTemplate" Value="{StaticResource contactItemChange}" />
+                </DataTrigger>
+                <!--<Trigger Property="IsSelected" Value="True">
+                    <Setter Property="ContentTemplate" Value="{StaticResource contactItemChange}" />
+                </Trigger>-->
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom" Height="30" HorizontalAlignment="Stretch">
@@ -106,10 +160,11 @@
                              FontFamily="Tahoma"/>
                 </DockPanel>
                 <DockPanel Grid.Row="1" HorizontalAlignment="Stretch">
-                    <ListBox x:Name="lbItems" HorizontalContentAlignment="Left" 
-                             ItemTemplate="{StaticResource contactItem}"
+                    <!--<ListBox x:Name="lbItems" HorizontalContentAlignment="Left" 
+                             ItemTemplate="{StaticResource contactItemChange}"
                              ItemsSource="{Binding OCMyContactsFiltered}">
-                    </ListBox>
+                    </ListBox>-->
+                    <ListBox x:Name="lbItems" ItemContainerStyle="{StaticResource ContainerStyle}" ItemsSource="{Binding OCMyContactsFiltered}"/>
                 </DockPanel>
             </Grid>
         </DockPanel>

@@ -33,12 +33,12 @@ namespace PhonebookBM
     public class MyExcel
     {
         string filePath = "";
-        public List<MyContact> contacs;
+        //public List<MyContact> contacs;
         ObservableCollection<MyContact> OCMyContacts = new ObservableCollection<MyContact>();
 
         public MyExcel()
         {
-
+            
         }
 
         public MyExcel(string filePath)
@@ -127,6 +127,11 @@ namespace PhonebookBM
             Marshal.ReleaseComObject(xlApp);
             #endregion
 
+            return OCMyContacts;
+        }
+
+        public ObservableCollection<MyContact> TestValue()
+        {
             int k = 1;
             {
                 MyContact row = new MyContact();
@@ -153,7 +158,7 @@ namespace PhonebookBM
                 row.ContactState = 1;
                 this.OCMyContacts.Add(row);
             }
-            return OCMyContacts;
+            return this.OCMyContacts;
         }
     }
 }

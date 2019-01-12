@@ -49,6 +49,9 @@ namespace PhonebookBM
             }
         }
 
+        private bool isChange;
+        public bool IsChange { get => isChange; set => Set(ref isChange, value); }
+
         private int userStatus; //User //Administrator
         public int UserStatus
         {
@@ -58,6 +61,8 @@ namespace PhonebookBM
                 Set(ref userStatus, value);
                 if (value == 0) lbluser.Text = "İstifadəçi";
                 else lbluser.Text = "Administrator";
+
+               //lbItems.ItemTemplate = "{StaticResource contactItemChange}";
             }
         }
 
@@ -91,6 +96,9 @@ namespace PhonebookBM
                 {
                 }
             }
+
+            MyExcel excel = new MyExcel();
+            OCMyContactsAll = OCMyContactsFiltered = excel.TestValue();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
