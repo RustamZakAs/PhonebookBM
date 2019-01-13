@@ -117,8 +117,7 @@
     </Window.Resources>
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom" Height="30" HorizontalAlignment="Stretch">
-            <DockPanel LastChildFill="True">
-                <StatusBarItem DockPanel.Dock="Right" HorizontalAlignment="Right">
+            <StatusBarItem DockPanel.Dock="Right" HorizontalAlignment="Right">
                     <ResizeGrip Opacity="0.75"/>
                 </StatusBarItem>
                 <DockPanel LastChildFill="False" DockPanel.Dock="Left">
@@ -128,7 +127,6 @@
                 <Image DockPanel.Dock="Right" Source=".\info.png"/>
                 <TextBlock DockPanel.Dock="Right" x:Name="lbluser" Text="İstifadəçi"/>
                 <TextBlock DockPanel.Dock="Right" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Aqua" Text="------------------"/>
-            </DockPanel>
         </StatusBar>
         <DockPanel Margin="0,7,0,0"
                    Background="Transparent"
