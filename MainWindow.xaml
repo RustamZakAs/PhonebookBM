@@ -120,6 +120,7 @@
             <StatusBarItem DockPanel.Dock="Right" HorizontalAlignment="Right">
                 <DockPanel>
                     <Image DockPanel.Dock="Left" Source=".\info.png"/>
+                    <Image DockPanel.Dock="Left" Source="add.png"/>
                     <TextBlock DockPanel.Dock="Left" x:Name="lbluser" Text="İstifadəçi"/>
                     <ResizeGrip Opacity="0.75"/>
                 </DockPanel>
@@ -152,6 +153,15 @@
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
+                    </Button>
+                    <Button Width="30" DockPanel.Dock="Right" Command="">
+                        <Image Source="/remove.png"></Image>
+                    </Button>
+                    <Button Width="30" DockPanel.Dock="Right" Command="">
+                        <Image Source="/add.png"/>
+                    </Button>
+                    <Button Width="30" DockPanel.Dock="Right" Command="">
+                        <Image Source="/change.png"/>
                     </Button>
                     <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Background="Yellow"
