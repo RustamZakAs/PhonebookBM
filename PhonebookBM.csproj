@@ -142,19 +142,13 @@
     <Resource Include="mainicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="change.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Resource Include="change.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="remove.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Resource Include="remove.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="add.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Resource Include="add.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

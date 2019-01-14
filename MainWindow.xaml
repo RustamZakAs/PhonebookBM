@@ -10,7 +10,7 @@
         Width="777"
         Name="mainWindow"
         Style="{StaticResource VS2012WindowStyle}"
-        PreviewKeyDown="AdminKey">
+        PreviewKeyDown="AdminKey" Closing="MainWindow_Closing" Loaded="MainWindow_Loaded">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -43,6 +43,18 @@
                         <ImageBrush ImageSource="{Binding DepartmentIcon}"/>
                     </Ellipse.Fill>
                 </Ellipse>
+                <Image Source=".\change.png" Height="50" Width="50" DockPanel.Dock="Left">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Confirmed}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
                 <DockPanel Width="150">
                     <TextBlock DockPanel.Dock="Top" Text="{Binding Department}" TextWrapping="Wrap"/>
                     <TextBlock Text="{Binding UnderDepartment}" TextWrapping="Wrap"/>
@@ -106,7 +118,7 @@
         <Style TargetType="{x:Type ListBoxItem}" x:Key="ContainerStyle">
             <Setter Property="ContentTemplate" Value="{StaticResource contactItem}" />
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=mainWindow, Path=UserStatus}" Value="0">
+                <DataTrigger Binding="{Binding ElementName=mainWindow, Path=IsChange}" Value="True">
                     <Setter Property="ContentTemplate" Value="{StaticResource contactItemChange}" />
                 </DataTrigger>
                 <!--<Trigger Property="IsSelected" Value="True">
@@ -120,7 +132,6 @@
             <StatusBarItem DockPanel.Dock="Right" HorizontalAlignment="Right">
                 <DockPanel>
                     <Image DockPanel.Dock="Left" Source=".\info.png"/>
-                    <Image DockPanel.Dock="Left" Source="add.png"/>
                     <TextBlock DockPanel.Dock="Left" x:Name="lbluser" Text="İstifadəçi"/>
                     <ResizeGrip Opacity="0.75"/>
                 </DockPanel>
@@ -154,13 +165,13 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button Width="30" DockPanel.Dock="Right" Command="">
-                        <Image Source="/remove.png"></Image>
+                    <Button x:Name="deleteButton" Width="30" DockPanel.Dock="Right" Command="{Binding ItemDeleteCommand}">
+                        <Image Source="/remove.png"/>
                     </Button>
                     <Button Width="30" DockPanel.Dock="Right" Command="">
                         <Image Source="/add.png"/>
                     </Button>
-                    <Button Width="30" DockPanel.Dock="Right" Command="">
+                    <Button Width="30" DockPanel.Dock="Right" Command="{Binding ItemChangeCommand}">
                         <Image Source="/change.png"/>
                     </Button>
                     <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -174,7 +185,10 @@
                              ItemTemplate="{StaticResource contactItemChange}"
                              ItemsSource="{Binding OCMyContactsFiltered}">
                     </ListBox>-->
-                    <ListBox x:Name="lbItems" ItemContainerStyle="{StaticResource ContainerStyle}" ItemsSource="{Binding OCMyContactsFiltered}"/>
+                    <ListBox x:Name="lbItems" 
+                             ItemContainerStyle="{StaticResource ContainerStyle}" 
+                             ItemsSource="{Binding OCMyContactsFiltered}"
+                             SelectedItem="{Binding Path=SelectedContact}"/>
                 </DockPanel>
             </Grid>
         </DockPanel>

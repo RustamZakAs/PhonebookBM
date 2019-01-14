@@ -32,6 +32,34 @@ namespace PhonebookBM
 {
     public class MyJSON
     {
-        
+        public MyJSON()
+        {
+
+        }
+
+        public static void Save(ObservableCollection<MyContact> collection)
+        {
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(ObservableCollection<MyContact>));
+            using (FileStream fs = new FileStream("Contacts.json", FileMode.Create))
+            {
+                jsonFormatter.WriteObject(fs, collection);
+            }
+        }
+
+        public static ObservableCollection<MyContact> Load()
+        {
+            if (File.Exists("Contacts.json"))
+            {
+                DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(ObservableCollection<MyContact>));
+                using (FileStream fs = new FileStream("Contacts.json", FileMode.Open))
+                {
+                    if (fs.Length > 3)
+                        return (ObservableCollection<MyContact>)jsonFormatter.ReadObject(fs);
+                    else
+                        MessageBox.Show("file is empty");
+                }
+            }
+            return new ObservableCollection<MyContact>();
+        }
     }
 }
