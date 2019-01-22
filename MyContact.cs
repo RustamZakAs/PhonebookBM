@@ -30,16 +30,33 @@ using System;
 
 namespace PhonebookBM
 {
-    using System.Runtime.Serialization;
-
     [DataContract]
-    public class MyContact : INotifyPropertyChanged
+    public class MyContact : INotifyPropertyChanged, ICloneable
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public void Set<T>(ref T field, T value, [System.Runtime.CompilerServices.CallerMemberName]string prop = "")
         {
             field = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+
+        public object Clone()
+        {
+            return new MyContact {
+                Id = this.Id,
+                DepartmentIcon = this.DepartmentIcon,
+                Department = this.Department,
+                UnderDepartment = this.UnderDepartment,
+                ContactName = this.ContactName,
+                ContactSurname = this.ContactSurname,
+                Profession = this.Profession,
+                TelNumber = this.TelNumber,
+                ContactState = this.ContactState,
+                Confirmed = this.Confirmed,
+                Deleted = this.Deleted
+            };
+            //return this.MemberwiseClone();
+            //throw new NotImplementedException();
         }
 
         [DataMember] //1
@@ -80,6 +97,10 @@ namespace PhonebookBM
 
         [DataMember] //10
         private bool confirmed = false; //подтверждено
-        public bool Сonfirmed { get => confirmed; set => Set(ref confirmed, value); }
+        public bool Confirmed { get => confirmed; set => Set(ref confirmed, value); }
+
+        [DataMember] //11
+        private bool deleted = false; //удвлено пользователем
+        public bool Deleted { get => deleted; set => Set(ref deleted, value); }
     }
 }

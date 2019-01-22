@@ -38,6 +38,9 @@ namespace PhonebookBM
         private ObservableCollection<MyContact> ocMyContactsFiltered;
         public ObservableCollection<MyContact> OCMyContactsFiltered { get => ocMyContactsFiltered; set => Set(ref ocMyContactsFiltered, value); }
 
+        private MyContact selectedContact;
+        public MyContact SelectedContact { get => selectedContact; set => Set(ref selectedContact, value); }
+
         private string searchText;
         public string SearchText
         {
@@ -49,15 +52,20 @@ namespace PhonebookBM
             }
         }
 
-        private int userStatus; //User //Administrator
+        private bool isChange;
+        public bool IsChange { get => isChange; set => Set(ref isChange, value); }
+
+        private int userStatus = 1; //User = 1 //Administrator = 0
         public int UserStatus
         {
             get => userStatus;
             set
             {
                 Set(ref userStatus, value);
-                if (value == 0) lbluser.Text = "İstifadəçi";
-                else lbluser.Text = "Administrator";
+                if (value == 0) lbluser.Text = "Administrator";
+                else lbluser.Text = "İstifadəçi";
+
+               
             }
         }
 
@@ -74,23 +82,6 @@ namespace PhonebookBM
         {
             InitializeComponent();
             DataContext = this;
-
-            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(ObservableCollection<MyContact>));
-            using (FileStream fs = new FileStream("Contacts.json", FileMode.OpenOrCreate))
-            {
-                try
-                {
-                    ObservableCollection<MyContact> myContacts = (ObservableCollection<MyContact>)jsonFormatter.ReadObject(fs);
-                    //foreach (MyContact p in newpeople)
-                    //{
-                    //    MessageBox.Show(String.Format("Имя: {0} --- Возраст: {1}", p.ContactName, p.ContactSurname));
-                    //}
-                    OCMyContactsFiltered = OCMyContactsAll = myContacts;
-                }
-                catch (Exception)
-                {
-                }
-            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -140,12 +131,58 @@ namespace PhonebookBM
             get => itemDeleteCommand ?? (itemDeleteCommand = new RelayCommand(
                  () =>
                  {
-                     int x = lbItems.SelectedIndex;
-                     if (lbItems.SelectedItem != null)
+                     MessageBox.Show(SelectedContact.ContactName);
+                     if (UserStatus == 0)
                      {
-                         OCMyContactsFiltered.RemoveAt(x);
+                         int x = lbItems.SelectedIndex;
+                         if (lbItems.SelectedItem != null && x > -1)
+                         {
+                             OCMyContactsFiltered.Remove(SelectedContact);
+                             OCMyContactsAll.Remove(SelectedContact);
+                         }
                      }
-                     OCMyContactsAll = ocMyContactsFiltered;
+                     else
+                     {
+                         int x = lbItems.SelectedIndex;
+                         if (lbItems.SelectedItem != null && x > -1)
+                         {
+                             OCMyContactsFiltered[x].Confirmed = true;
+                             OCMyContactsFiltered[x].ContactState = UserStatus;
+
+                             OCMyContactsAll[x].Confirmed = true;
+                             OCMyContactsAll[x].ContactState = UserStatus;
+                         }
+                     }
+                 }
+                 ));
+        }
+
+        private RelayCommand itemChangeCommand;
+        public RelayCommand ItemChangeCommand
+        {
+            get => itemChangeCommand ?? (itemChangeCommand = new RelayCommand(
+                 () =>
+                 {
+                     if (!IsChange)
+                     {
+                         MessageBox.Show(SelectedContact.ContactName);
+                         MyContact mc = SelectedContact;
+                         mc.Confirmed = true;
+                         mc.Deleted = false;
+                         OCMyContactsFiltered.Clear();
+                         OCMyContactsFiltered.Add(mc);
+                         IsChange = true;
+                     }
+                     else
+                     {
+                         MyContact mc = SelectedContact;
+                         if (mc == null) mc = (MyContact)ocMyContactsFiltered[0].Clone();
+                         OCMyContactsAll.Add(mc);
+                         mc.Confirmed = true;
+                         mc.Deleted = false;
+                         ocMyContactsFiltered = OCMyContactsAll;
+                         IsChange = false;
+                     }
                  }
                  ));
         }
@@ -164,14 +201,14 @@ namespace PhonebookBM
             }
             else if ((e.Key == Key.Z & Keyboard.Modifiers == ModifierKeys.Control) && AdminKeyPress)
             {
-                if (this.UserStatus == 0)
+                if (this.UserStatus == 1)
                 {
-                    this.UserStatus = 1;
+                    this.UserStatus = 0;
                     MyIsEnabled = true;
                 }
                 else
                 {
-                    this.UserStatus = 0;
+                    this.UserStatus = 1;
                     MyIsEnabled = false;
                 }
                 AdminKeyPress = false;
@@ -200,14 +237,24 @@ namespace PhonebookBM
             ExcelFilePath = OpenFileDialogAndReturnExcelFilePath();
             MyExcel myExcel = new MyExcel(ExcelFilePath);
             if (ExcelFilePath != null && ExcelFilePath.Length > 0)
-                OCMyContactsAll = myExcel.ReadExcel();
-            OCMyContactsFiltered = OCMyContactsAll;
+                OCMyContactsFiltered = OCMyContactsAll = myExcel.ReadExcel();
 
-            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(ObservableCollection<MyContact>));
+            MyJSON.Save(OCMyContactsAll);
+        }
 
-            using (FileStream fs = new FileStream("Contacts.json", FileMode.OpenOrCreate))
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            MyJSON.Save(OCMyContactsAll);
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            OCMyContactsAll = OCMyContactsFiltered = MyJSON.Load();
+
+            if (OCMyContactsAll.Count == 0)
             {
-                jsonFormatter.WriteObject(fs, OCMyContactsAll);
+                MyExcel excel = new MyExcel();
+                OCMyContactsAll = OCMyContactsFiltered = excel.TestValue();
             }
         }
     }

@@ -10,7 +10,7 @@
         Width="777"
         Name="mainWindow"
         Style="{StaticResource VS2012WindowStyle}"
-        PreviewKeyDown="AdminKey">
+        PreviewKeyDown="AdminKey" Closing="MainWindow_Closing" Loaded="MainWindow_Loaded">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -43,6 +43,18 @@
                         <ImageBrush ImageSource="{Binding DepartmentIcon}"/>
                     </Ellipse.Fill>
                 </Ellipse>
+                <Image Source=".\change.png" Height="50" Width="50" DockPanel.Dock="Left">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Confirmed}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
                 <DockPanel Width="150">
                     <TextBlock DockPanel.Dock="Top" Text="{Binding Department}" TextWrapping="Wrap"/>
                     <TextBlock Text="{Binding UnderDepartment}" TextWrapping="Wrap"/>
@@ -60,21 +72,75 @@
                 </DockPanel>
             </DockPanel>
         </DataTemplate>
+        <DataTemplate x:Key="contactItemChange">
+            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" LastChildFill="True">
+                <DockPanel DockPanel.Dock="Right" Background="GreenYellow">
+                    <TextBox Width="121" DockPanel.Dock="Left" 
+                             Text="{Binding TelNumber}"
+                             PreviewTextInput="NumberInsert" 
+                             Background="Red"
+                             FontSize="16"/>
+                    <Button DockPanel.Dock="Right" x:Name="btnDel" FontWeight="Bold" Content="X">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=mainWindow, Path=MyIsEnabled}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </DockPanel>
+                <Ellipse Height="50" Width="50" DockPanel.Dock="Left">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding DepartmentIcon}"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <DockPanel Width="150">
+                    <TextBox DockPanel.Dock="Top" Text="{Binding Department}" TextWrapping="Wrap"/>
+                    <TextBox Text="{Binding UnderDepartment}" TextWrapping="Wrap"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBox DockPanel.Dock="Bottom" 
+                               Text="{Binding Profession}"
+                               TextWrapping="Wrap"
+                               Width="200"
+                               />
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Right" Width="190" Background="Green">
+                    <TextBox DockPanel.Dock="Top" Text="{Binding ContactName}" Background="Red"/>
+                    <TextBox Text="{Binding ContactSurname}"></TextBox>
+                </DockPanel>
+            </DockPanel>
+        </DataTemplate>
+        <Style TargetType="{x:Type ListBoxItem}" x:Key="ContainerStyle">
+            <Setter Property="ContentTemplate" Value="{StaticResource contactItem}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=mainWindow, Path=IsChange}" Value="True">
+                    <Setter Property="ContentTemplate" Value="{StaticResource contactItemChange}" />
+                </DataTrigger>
+                <!--<Trigger Property="IsSelected" Value="True">
+                    <Setter Property="ContentTemplate" Value="{StaticResource contactItemChange}" />
+                </Trigger>-->
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom" Height="30" HorizontalAlignment="Stretch">
-            <DockPanel LastChildFill="True">
-                <StatusBarItem DockPanel.Dock="Right" HorizontalAlignment="Right">
+            <StatusBarItem DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <DockPanel>
+                    <Image DockPanel.Dock="Left" Source=".\info.png"/>
+                    <TextBlock DockPanel.Dock="Left" x:Name="lbluser" Text="İstifadəçi"/>
                     <ResizeGrip Opacity="0.75"/>
-                </StatusBarItem>
-                <DockPanel LastChildFill="False" DockPanel.Dock="Left">
-                    <TextBlock DockPanel.Dock="Right" Text="{Binding OCMyContactsFiltered.Count}"/>
-                    <TextBlock Margin="3,0,0,0" Text="Sayı:"/>
                 </DockPanel>
-                <Image DockPanel.Dock="Right" Source=".\info.png"/>
-                <TextBlock DockPanel.Dock="Right" x:Name="lbluser" Text="İstifadəçi"/>
-                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Aqua" Text="------------------"/>
+            </StatusBarItem>
+            <DockPanel LastChildFill="False" DockPanel.Dock="Left">
+                <TextBlock DockPanel.Dock="Right" Text="{Binding OCMyContactsFiltered.Count}"/>
+                <TextBlock Margin="3,0,0,0" Text="Sayı:"/>
             </DockPanel>
+            
         </StatusBar>
         <DockPanel Margin="0,7,0,0"
                    Background="Transparent"
@@ -99,6 +165,15 @@
                             </Style>
                         </Button.Style>
                     </Button>
+                    <Button x:Name="deleteButton" Width="30" DockPanel.Dock="Right" Command="{Binding ItemDeleteCommand}">
+                        <Image Source="/remove.png"/>
+                    </Button>
+                    <Button Width="30" DockPanel.Dock="Right" Command="">
+                        <Image Source="/add.png"/>
+                    </Button>
+                    <Button Width="30" DockPanel.Dock="Right" Command="{Binding ItemChangeCommand}">
+                        <Image Source="/change.png"/>
+                    </Button>
                     <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Background="Yellow"
                              FontSize="20"
@@ -106,10 +181,14 @@
                              FontFamily="Tahoma"/>
                 </DockPanel>
                 <DockPanel Grid.Row="1" HorizontalAlignment="Stretch">
-                    <ListBox x:Name="lbItems" HorizontalContentAlignment="Left" 
-                             ItemTemplate="{StaticResource contactItem}"
+                    <!--<ListBox x:Name="lbItems" HorizontalContentAlignment="Left" 
+                             ItemTemplate="{StaticResource contactItemChange}"
                              ItemsSource="{Binding OCMyContactsFiltered}">
-                    </ListBox>
+                    </ListBox>-->
+                    <ListBox x:Name="lbItems" 
+                             ItemContainerStyle="{StaticResource ContainerStyle}" 
+                             ItemsSource="{Binding OCMyContactsFiltered}"
+                             SelectedItem="{Binding Path=SelectedContact}"/>
                 </DockPanel>
             </Grid>
         </DockPanel>

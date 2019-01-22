@@ -62,6 +62,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization">
       <Private>False</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -139,6 +140,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="mainicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="change.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="add.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -33,12 +33,12 @@ namespace PhonebookBM
     public class MyExcel
     {
         string filePath = "";
-        public List<MyContact> contacs;
+        //public List<MyContact> contacs;
         ObservableCollection<MyContact> OCMyContacts = new ObservableCollection<MyContact>();
 
         public MyExcel()
         {
-
+            
         }
 
         public MyExcel(string filePath)
@@ -96,7 +96,11 @@ namespace PhonebookBM
                 //************************************************************************
                 col = 10;
                 if (xlRange.Cells[i, col] != null && xlRange.Cells[i, col].Value2 != null)
-                    row.Сonfirmed = xlRange.Cells[i, col].Value2.ToString();
+                    row.Confirmed = xlRange.Cells[i, col].Value2.ToString();
+                //************************************************************************
+                col = 11;
+                if (xlRange.Cells[i, col] != null && xlRange.Cells[i, col].Value2 != null)
+                    row.Deleted = xlRange.Cells[i, col].Value2.ToString();
                 //************************************************************************
                 if (row.Department.Length > 0 && row.UnderDepartment.Length > 0 && row.ContactName.Length > 0)
                 {
@@ -127,6 +131,11 @@ namespace PhonebookBM
             Marshal.ReleaseComObject(xlApp);
             #endregion
 
+            return OCMyContacts;
+        }
+
+        public ObservableCollection<MyContact> TestValue()
+        {
             int k = 1;
             {
                 MyContact row = new MyContact();
@@ -139,6 +148,8 @@ namespace PhonebookBM
                 row.TelNumber = "+994772709923";
                 row.DepartmentIcon = @".\logo.png";
                 row.ContactState = 0;
+                row.Confirmed = false;
+                row.Deleted = false;
                 this.OCMyContacts.Add(row);
 
                 row = new MyContact();
@@ -151,9 +162,11 @@ namespace PhonebookBM
                 row.TelNumber = "+994772709940";
                 row.DepartmentIcon = @".\logo.png";
                 row.ContactState = 1;
+                row.Confirmed = false;
+                row.Deleted = false;
                 this.OCMyContacts.Add(row);
             }
-            return OCMyContacts;
+            return this.OCMyContacts;
         }
     }
 }
