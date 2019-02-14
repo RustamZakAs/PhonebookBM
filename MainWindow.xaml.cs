@@ -125,11 +125,11 @@ namespace PhonebookBM
             }
         }
 
-        private RelayCommand itemDeleteCommand;
-        public RelayCommand ItemDeleteCommand
+        private MyRelayCommand itemDeleteCommand;
+        public MyRelayCommand ItemDeleteCommand
         {
-            get => itemDeleteCommand ?? (itemDeleteCommand = new RelayCommand(
-                 () =>
+            get => itemDeleteCommand ?? (itemDeleteCommand = new MyRelayCommand(
+                 param =>
                  {
                      MessageBox.Show(SelectedContact.ContactName);
                      if (UserStatus == 0)
@@ -153,8 +153,9 @@ namespace PhonebookBM
                              OCMyContactsAll[x].ContactState = UserStatus;
                          }
                      }
-                 }
-                 ));
+                 },
+                 param => SelectedContact != null 
+                ));
         }
 
         private RelayCommand itemChangeCommand;

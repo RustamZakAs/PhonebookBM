@@ -80,7 +80,7 @@
                              PreviewTextInput="NumberInsert" 
                              Background="Red"
                              FontSize="16"/>
-                    <Button DockPanel.Dock="Right" x:Name="btnDel" FontWeight="Bold" Content="X">
+                    <Button DockPanel.Dock="Right" x:Name="btnDel" FontWeight="Bold" Content="X" Command="{Binding ItemDeleteCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Visibility" Value="Visible"/>
