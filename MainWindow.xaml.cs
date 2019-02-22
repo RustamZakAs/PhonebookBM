@@ -64,8 +64,6 @@ namespace PhonebookBM
                 Set(ref userStatus, value);
                 if (value == 0) lbluser.Text = "Administrator";
                 else lbluser.Text = "İstifadəçi";
-
-               
             }
         }
 
@@ -95,13 +93,13 @@ namespace PhonebookBM
         {
             if (contacts != null && contacts.Count > 0)
             { 
-                var linqResults1 = from user in contacts
-                                   where user.ContactName.Contains(value) ||
-                                   user.ContactSurname.Contains(value) ||
-                                   user.Department.Contains(value) ||
-                                   user.UnderDepartment.Contains(value)
+                var linqResults = from user in contacts
+                                   where user.ContactName.ToLower().Contains(value.ToLower()) ||
+                                   user.ContactSurname.ToLower().Contains(value.ToLower()) ||
+                                   user.Department.ToLower().Contains(value.ToLower()) ||
+                                   user.UnderDepartment.ToLower().Contains(value.ToLower())
                                    select user;
-                return new ObservableCollection<MyContact>(linqResults1);
+                return new ObservableCollection<MyContact>(linqResults);
             }
             return new ObservableCollection<MyContact>();
         }
@@ -125,13 +123,13 @@ namespace PhonebookBM
             }
         }
 
-        private MyRelayCommand itemDeleteCommand;
-        public MyRelayCommand ItemDeleteCommand
+        private RelayCommand itemDeleteCommand;
+        public RelayCommand ItemDeleteCommand
         {
-            get => itemDeleteCommand ?? (itemDeleteCommand = new MyRelayCommand(
-                 param =>
+            get => itemDeleteCommand ?? (itemDeleteCommand = new RelayCommand(
+                 () =>
                  {
-                     MessageBox.Show(SelectedContact.ContactName);
+                     //MessageBox.Show(SelectedContact.ContactName);
                      if (UserStatus == 0)
                      {
                          int x = lbItems.SelectedIndex;
@@ -154,8 +152,20 @@ namespace PhonebookBM
                          }
                      }
                  },
-                 param => SelectedContact != null 
+                 () => SelectedContact != null 
                 ));
+        }
+
+        private RelayCommand addItemCommand;
+        public RelayCommand AddItemCommand
+        {
+            get => addItemCommand ?? (addItemCommand = new RelayCommand(
+                 () =>
+                 {
+                     MyContact _contacn = new MyContact();
+                         
+                 }
+                 ));
         }
 
         private RelayCommand itemChangeCommand;
@@ -164,7 +174,7 @@ namespace PhonebookBM
             get => itemChangeCommand ?? (itemChangeCommand = new RelayCommand(
                  () =>
                  {
-                     if (!IsChange)
+                     if (!IsChange && SelectedContact != null)
                      {
                          MessageBox.Show(SelectedContact.ContactName);
                          MyContact mc = SelectedContact;

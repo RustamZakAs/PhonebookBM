@@ -63,8 +63,7 @@
                     <TextBlock DockPanel.Dock="Bottom" 
                                Text="{Binding Profession}"
                                TextWrapping="Wrap"
-                               Width="200"
-                               />
+                               Width="200"/>
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Right" Width="190" Background="Green">
                     <Label DockPanel.Dock="Top" Content="{Binding ContactName}" Background="Red"/>
@@ -106,8 +105,7 @@
                     <TextBox DockPanel.Dock="Bottom" 
                                Text="{Binding Profession}"
                                TextWrapping="Wrap"
-                               Width="200"
-                               />
+                               Width="200"/>
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Right" Width="190" Background="Green">
                     <TextBox DockPanel.Dock="Top" Text="{Binding ContactName}" Background="Red"/>

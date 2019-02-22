@@ -42,21 +42,20 @@ namespace PhonebookBM
 
         public object Clone()
         {
-            return new MyContact {
-                Id = this.Id,
-                DepartmentIcon = this.DepartmentIcon,
-                Department = this.Department,
-                UnderDepartment = this.UnderDepartment,
-                ContactName = this.ContactName,
-                ContactSurname = this.ContactSurname,
-                Profession = this.Profession,
-                TelNumber = this.TelNumber,
-                ContactState = this.ContactState,
-                Confirmed = this.Confirmed,
-                Deleted = this.Deleted
-            };
-            //return this.MemberwiseClone();
-            //throw new NotImplementedException();
+            //return new MyContact {
+            //    Id = this.Id,
+            //    DepartmentIcon = this.DepartmentIcon,
+            //    Department = this.Department,
+            //    UnderDepartment = this.UnderDepartment,
+            //    ContactName = this.ContactName,
+            //    ContactSurname = this.ContactSurname,
+            //    Profession = this.Profession,
+            //    TelNumber = this.TelNumber,
+            //    ContactState = this.ContactState,
+            //    Confirmed = this.Confirmed,
+            //    Deleted = this.Deleted
+            //};
+            return this.MemberwiseClone();
         }
 
         [DataMember] //1
