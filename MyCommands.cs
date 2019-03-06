@@ -114,7 +114,7 @@ namespace PhonebookBM
         }
     }
 
-    class Commands
+    class MyCommands
     {
     }
 }

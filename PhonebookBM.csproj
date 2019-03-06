@@ -88,9 +88,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-	<Compile Include="Commands.cs" />
+    <Compile Include="MyCommands.cs" />
     <Compile Include="MyApp.cs" />
-	<Compile Include="MyRelayCommand.cs" />
+    <Compile Include="MyRelayCommand.cs" />
     <Compile Include="Styles\CustomizedWindow\VS2012WindowStyle.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
