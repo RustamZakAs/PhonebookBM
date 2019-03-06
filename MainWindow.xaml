@@ -168,7 +168,7 @@
                     <Button x:Name="deleteButton" Width="30" DockPanel.Dock="Right" Command="{Binding ItemDeleteCommand}">
                         <Image Source="/remove.png"/>
                     </Button>
-                    <Button Width="30" DockPanel.Dock="Right" Command="">
+                    <Button Width="30" DockPanel.Dock="Right" Command="{Binding ItemAddCommand}">
                         <Image Source="/add.png"/>
                     </Button>
                     <Button Width="30" DockPanel.Dock="Right" Command="{Binding ItemChangeCommand}">

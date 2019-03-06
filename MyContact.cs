@@ -59,6 +59,31 @@ namespace PhonebookBM
             //throw new NotImplementedException();
         }
 
+        public MyContact()
+        {
+
+        }
+
+        public MyContact(int Id)
+        {
+            this.Id = Id;
+        }
+
+        public MyContact(MyContact my)
+        {
+            this.Id = my.Id;
+            this.DepartmentIcon = my.DepartmentIcon;
+            this.Department = my.Department;
+            this.UnderDepartment = my.UnderDepartment;
+            this.ContactName = my.ContactName;
+            this.ContactSurname = my.ContactSurname;
+            this.Profession = my.Profession;
+            this.TelNumber = my.TelNumber;
+            this.ContactState = my.ContactState;
+            this.Confirmed = my.Confirmed;
+            this.Deleted = my.Deleted;
+        }
+
         [DataMember] //1
         private int id = 0; 
         public int Id { get => id; set => Set(ref id, value); }
