@@ -93,13 +93,13 @@ namespace PhonebookBM
         {
             if (contacts != null && contacts.Count > 0)
             { 
-                var linqResults1 = from user in contacts
-                                   where user.ContactName.Contains(value) ||
-                                   user.ContactSurname.Contains(value) ||
-                                   user.Department.Contains(value) ||
-                                   user.UnderDepartment.Contains(value)
+                var linqResults = from user in contacts
+                                   where user.ContactName.ToLower().Contains(value.ToLower()) ||
+                                   user.ContactSurname.ToLower().Contains(value.ToLower()) ||
+                                   user.Department.ToLower().Contains(value.ToLower()) ||
+                                   user.UnderDepartment.ToLower().Contains(value.ToLower())
                                    select user;
-                return new ObservableCollection<MyContact>(linqResults1);
+                return new ObservableCollection<MyContact>(linqResults);
             }
             return new ObservableCollection<MyContact>();
         }
@@ -121,6 +121,68 @@ namespace PhonebookBM
                 if (((TextBox)sender).Text.StartsWith(e.Text) == true)
                     e.Handled = true;
             }
+        }
+
+        private RelayCommand itemDeleteCommand;
+        public RelayCommand ItemDeleteCommand
+        {
+            get => itemDeleteCommand ?? (itemDeleteCommand = new RelayCommand(
+                 () =>
+                 {
+                     MessageBox.Show(SelectedContact.ContactName);
+                     if (UserStatus == 0)
+                     {
+                         int x = lbItems.SelectedIndex;
+                         if (lbItems.SelectedItem != null && x > -1)
+                         {
+                             OCMyContactsFiltered.Remove(SelectedContact);
+                             OCMyContactsAll.Remove(SelectedContact);
+                         }
+                     }
+                     else
+                     {
+                         int x = lbItems.SelectedIndex;
+                         if (lbItems.SelectedItem != null && x > -1)
+                         {
+                             OCMyContactsFiltered[x].Confirmed = true;
+                             OCMyContactsFiltered[x].ContactState = UserStatus;
+
+                             OCMyContactsAll[x].Confirmed = true;
+                             OCMyContactsAll[x].ContactState = UserStatus;
+                         }
+                     }
+                 }
+                 ));
+        }
+
+        private RelayCommand itemChangeCommand;
+        public RelayCommand ItemChangeCommand
+        {
+            get => itemChangeCommand ?? (itemChangeCommand = new RelayCommand(
+                 () =>
+                 {
+                     if (!IsChange)
+                     {
+                         MessageBox.Show(SelectedContact.ContactName);
+                         MyContact mc = SelectedContact;
+                         mc.Confirmed = true;
+                         mc.Deleted = false;
+                         OCMyContactsFiltered.Clear();
+                         OCMyContactsFiltered.Add(mc);
+                         IsChange = true;
+                     }
+                     else
+                     {
+                         MyContact mc = SelectedContact;
+                         if (mc == null) mc = (MyContact)ocMyContactsFiltered[0].Clone();
+                         OCMyContactsAll.Add(mc);
+                         mc.Confirmed = true;
+                         mc.Deleted = false;
+                         ocMyContactsFiltered = OCMyContactsAll;
+                         IsChange = false;
+                     }
+                 }
+                 ));
         }
 
         private bool IsNumber(string text)

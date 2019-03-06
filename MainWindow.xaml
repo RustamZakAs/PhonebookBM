@@ -63,8 +63,7 @@
                     <TextBlock DockPanel.Dock="Bottom" 
                                Text="{Binding Profession}"
                                TextWrapping="Wrap"
-                               Width="200"
-                               />
+                               Width="200"/>
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Right" Width="190" Background="Green">
                     <Label DockPanel.Dock="Top" Content="{Binding ContactName}" Background="Red"/>
@@ -80,7 +79,7 @@
                              PreviewTextInput="NumberInsert" 
                              Background="Red"
                              FontSize="16"/>
-                    <Button DockPanel.Dock="Right" x:Name="btnDel" FontWeight="Bold" Content="X">
+                    <Button DockPanel.Dock="Right" x:Name="btnDel" FontWeight="Bold" Content="X" Command="{Binding ItemDeleteCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Visibility" Value="Visible"/>
@@ -106,8 +105,7 @@
                     <TextBox DockPanel.Dock="Bottom" 
                                Text="{Binding Profession}"
                                TextWrapping="Wrap"
-                               Width="200"
-                               />
+                               Width="200"/>
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Right" Width="190" Background="Green">
                     <TextBox DockPanel.Dock="Top" Text="{Binding ContactName}" Background="Red"/>

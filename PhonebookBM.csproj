@@ -88,8 +88,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commands.cs" />
+	<Compile Include="Commands.cs" />
     <Compile Include="MyApp.cs" />
+	<Compile Include="MyRelayCommand.cs" />
     <Compile Include="Styles\CustomizedWindow\VS2012WindowStyle.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -130,7 +131,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="Book1.xlsx" />
+    <None Include="Book1.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
