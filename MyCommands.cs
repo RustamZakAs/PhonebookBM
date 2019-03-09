@@ -65,6 +65,13 @@ namespace PhonebookBM
                              return;
                          }
 
+                         ObservableCollection<MyContact> temp = new ObservableCollection<MyContact>();
+                         for (int i = 0; i < OCMyContactsAll.Count; i++)
+                         {
+                             temp.Add(new MyContact(OCMyContactsAll[i]));
+                         }
+                         OCMyContactsAll = temp;
+
                          MyContact mc = SelectedContact;
                          mc.Confirmed = true;
                          mc.Deleted = false;
