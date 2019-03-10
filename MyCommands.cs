@@ -108,35 +108,35 @@ namespace PhonebookBM
         public RelayCommand ItemAddCommand
         {
             get => itemAddCommand ?? (itemAddCommand = new RelayCommand(
-                 () =>
-                 {
-                     if(!IsChange)
-                     {
-                         ObservableCollection<MyContact> temp = new ObservableCollection<MyContact>();
-                         for (int i = 0; i < OCMyContactsAll.Count; i++)
-                         {
-                             temp.Add(new MyContact(OCMyContactsAll[i]));
-                         }
-                         //OCMyContactsFiltered = temp;
+                () =>
+                {
+                    if(!IsChange)
+                    {
+                        ObservableCollection<MyContact> temp = new ObservableCollection<MyContact>();
+                        for (int i = 0; i < OCMyContactsAll.Count; i++)
+                        {
+                            temp.Add(new MyContact(OCMyContactsAll[i]));
+                        }
+                        //OCMyContactsFiltered = temp;
 
-                         OCMyContactsFiltered.Clear();
-                         int maxId = temp.Max(x => x.Id) + 1;
-                         OCMyContactsFiltered.Add(new MyContact(maxId));
+                        OCMyContactsFiltered.Clear();
+                        int maxId = temp.Max(x => x.Id) + 1;
+                        OCMyContactsFiltered.Add(new MyContact(maxId));
 
-                         temp.Add(OCMyContactsFiltered[0]);
+                        temp.Add(OCMyContactsFiltered[0]);
 
-                         OCMyContactsAll = temp;
+                        OCMyContactsAll = temp;
 
-                         IsChange = true;
-                     }
-                     else
-                     {
-                         OCMyContactsFiltered = OCMyContactsAll;
+                        IsChange = true;
+                    }
+                    else
+                    {
+                        OCMyContactsFiltered = OCMyContactsAll;
 
-                         IsChange = false;
-                     }
-                 }
-                 ));
+                        IsChange = false;
+                    }
+                }
+                ));
         }
     }
 

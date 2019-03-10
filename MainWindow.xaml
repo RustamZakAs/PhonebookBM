@@ -25,7 +25,21 @@
                              PreviewTextInput="NumberInsert" 
                              Background="Red"
                              FontSize="16"/>
-                    <Button DockPanel.Dock="Right" x:Name="btnDel" FontWeight="Bold" Content="X">
+                    <Button DockPanel.Dock="Right" x:Name="btnDel" FontWeight="Bold" Content="X"
+                            Command="{Binding .}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=mainWindow, Path=MyIsEnabled}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button DockPanel.Dock="Right" x:Name="btnCheck" FontWeight="Bold" Content="✔" 
+                            Command="{Binding .}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Visibility" Value="Visible"/>
